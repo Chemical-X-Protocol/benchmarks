@@ -1,6 +1,6 @@
 {
   "name": "@chemical-x-protocol/benchmarks",
-  "version": "26.9.9-612",
+  "version": "26.9.9-671",
   "description": "Empirical AI coding agent benchmarks: Monolith vs Chemical X Architecture",
   "type": "module",
   "scripts": {

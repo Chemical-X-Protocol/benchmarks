@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - Comprehensively overhauled `README.md` with human-oriented documentation covering architectural motivations, git branch models, local dev/test workflows, AST hazard linter rules, dry-run simulations, live benchmark commands, and task explanations.
+- Delegated AST context hazard audit script (`scripts/audit-context-risk.ts`) to the official Chemical X starter-kit audit engine (`create-chemx/audit`), establishing a single source of truth for architectural hazard analysis across the ecosystem.
 
 ## [2026-09-08]
 

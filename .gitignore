@@ -1,0 +1,17 @@
+node_modules/create-chemx
+node_modules/.bin/chemx
+node_modules/.bin/create-chemx
+node_modules/.bin/openai
+node_modules/.bin/parser
+node_modules/.bin/ts-node
+node_modules/.bin/ts-node-cwd
+node_modules/.bin/ts-node-esm
+node_modules/.bin/ts-node-script
+node_modules/.bin/ts-node-transpile-only
+node_modules/.bin/ts-script
+node_modules/.bin/tsc
+node_modules/.bin/tsserver
+node_modules/.bin/tsx
+node_modules/.bin/vite
+node_modules/.bin/vitest
+node_modules/.vite/deps/_metadata.json

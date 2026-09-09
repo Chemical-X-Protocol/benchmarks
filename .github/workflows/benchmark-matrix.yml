@@ -46,83 +46,15 @@ permissions:
   pull-requests: write
 
 jobs:
-  static-hazard-audit:
-    name: AST Context Hazard Audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run Static AST Context Hazard Audit
-        run: npm run audit -- --json > audit-report.json || true
-
-      - name: Output Audit Results to Step Summary
-        run: |
-          echo "## Static Architectural Context Hazard Audit" >> $GITHUB_STEP_SUMMARY
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          cat audit-report.json >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-
-  benchmark-matrix:
-    name: ${{ matrix.model }} on ${{ matrix.architecture }}
-    needs: [static-hazard-audit]
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        model: [claude-3-7-sonnet, gemini-2-5-pro, gpt-4o, grok-2]
-        architecture: [monolith, chemical-x]
-    steps:
-      - name: Checkout Code with Full History
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run Benchmark Task Matrix
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        run: |
-          MODEL_CHOICE="${{ github.event.inputs.model }}"
-          ARCH_CHOICE="${{ github.event.inputs.architecture }}"
-          TASK_CHOICE="${{ github.event.inputs.task }}"
-
-          if [ "$MODEL_CHOICE" != "all" ] && [ "$MODEL_CHOICE" != "${{ matrix.model }}" ]; then
-            echo "Skipping matrix run for model ${{ matrix.model }}"
-            exit 0
-          fi
-
-          if [ "$ARCH_CHOICE" != "all" ] && [ "$ARCH_CHOICE" != "${{ matrix.architecture }}" ]; then
-            echo "Skipping matrix run for architecture ${{ matrix.architecture }}"
-            exit 0
-          fi
-
-          npm run benchmark -- --model=${{ matrix.model }} --target=${{ matrix.architecture }} --task=$TASK_CHOICE
-
-      - name: Upload Benchmark Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: benchmark-results-${{ matrix.model }}-${{ matrix.architecture }}
-          path: benchmarks/results/*.json
+  benchmark-orchestration:
+    uses: HalloftheGods/.github/.github/workflows/chemical-x-benchmark-matrix.yml@main
+    with:
+      model: ${{ github.event.inputs.model || 'all' }}
+      architecture: ${{ github.event.inputs.architecture || 'all' }}
+      task: ${{ github.event.inputs.task || 'all' }}
+      is_pr: ${{ github.event_name == 'pull_request' }}
+    secrets:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}

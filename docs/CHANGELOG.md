@@ -19,3 +19,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Multi-model benchmark execution harness (`scripts/run-benchmark.ts`) supporting Claude 3.7 Sonnet, Gemini 2.5 Pro, GPT-4o, and Grok-2.
 - GitHub Actions CI/CD matrix workflow (`.github/workflows/benchmark-matrix.yml`) for automated public evaluations.
 - Documentation for GitHub Sponsors private starter-kit unlock architecture (`docs/SPONSOR_TIER.md`).
+
+### Changed
+- Delegated CI/CD matrix execution to universal reusable workflow hosted at `HalloftheGods/.github/.github/workflows/chemical-x-benchmark-matrix.yml@main`.

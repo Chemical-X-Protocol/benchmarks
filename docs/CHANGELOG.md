@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - Standalone Vite web entrypoint (`index.html`, `src/main.tsx`) and dev server configuration on port 8094 for COMPASS dev fleet integration.
 
+### Changed
+- Comprehensively overhauled `README.md` with human-oriented documentation covering architectural motivations, git branch models, local dev/test workflows, AST hazard linter rules, dry-run simulations, live benchmark commands, and task explanations.
+
 ## [2026-09-08]
 
 ### Added

@@ -1,12 +1,19 @@
 # Chemical X Protocol: AI Coding Agent Benchmarks
 
+[![Live App](https://img.shields.io/badge/Web%20App-chemicalx.xophz.com-06b6d4?style=for-the-badge&logo=cloudflare)](https://chemicalx.xophz.com)
+[![Parent Repo](https://img.shields.io/badge/Repository-awesome--secret--sauce-8b5cf6?style=for-the-badge)](https://github.com/Chemical-X-Protocol/awesome-secret-sauce)
+[![Starter Kit](https://img.shields.io/badge/Starter%20Kit-Crystalline%20Capsules-f59e0b?style=for-the-badge)](https://github.com/Chemical-X-Protocol/starter-kit)
+
 Empirical, reproducible benchmarking repository to evaluate AI coding agent performance (Claude 3.7 Sonnet, Gemini 2.5 Pro, GPT-4o, Grok-2) across legacy monolithic components versus modular Chemical X architecture.
+
+Interactive benchmarks dashboard live at [https://chemicalx.xophz.com/#benchmarks](https://chemicalx.xophz.com/#benchmarks).
 
 ## Repository Overview
 
 - **Organization**: `chemical-x-protocol`
 - **Repository**: `chemical-x-protocol/benchmarks`
 - **Submodule Path**: `apps/chemical-x/benchmarks`
+- **Live Portal**: [https://chemicalx.xophz.com](https://chemicalx.xophz.com)
 
 ## Branch Hierarchy
 

@@ -10,7 +10,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "audit": "tsx scripts/audit-context-risk.ts",
-    "benchmark": "tsx scripts/run-benchmark.ts"
+    "benchmark": "tsx scripts/run-benchmark.ts",
+    "setup:branches": "bash scripts/setup-git-branches.sh"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -32,6 +33,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "jsdom": "^26.0.0",
     "openai": "^4.85.4",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "vite": "^6.1.1",

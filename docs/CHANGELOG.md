@@ -4,6 +4,11 @@ All notable changes to the Chemical X Benchmarks repository will be documented i
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2026-09-09]
+
+### Added
+- Standalone Vite web entrypoint (`index.html`, `src/main.tsx`) and dev server configuration on port 8094 for COMPASS dev fleet integration.
+
 ## [2026-09-08]
 
 ### Added

@@ -37,3 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - Multi-org package publish automation (`scripts/publish-both.mjs`) targeting `@chemx/benchmarks` and `@chem-x/benchmarks`.
 - Local `publish:both` script in `package.json`.
+
+### Fixed
+- Added explicit `--tag` support and automatic default fallback for prerelease/CalVer versions in multi-target publisher (`scripts/publish-both.mjs`).
+

@@ -11,7 +11,7 @@ Empirical, reproducible benchmarking repository to evaluate AI coding agent perf
 ## Branch Hierarchy
 
 - `main`: Test harness, AST hazard linter, 5 task specifications, CI matrix definitions.
-- `base/monolith`: Contains the un-factored 681-line monolith component (`UserDashboardMonolithApp.tsx`).
+- `base/monolith`: Contains the un-factored 2,700-line monolith component (`UserDashboardMonolithApp.tsx`).
 - `base/chemical-x`: The exact same functionality refactored to Chemical X standards:
   - Top-level view under 20 lines (Table-of-Contents pattern)
   - Molecule capsules strictly under 100 lines

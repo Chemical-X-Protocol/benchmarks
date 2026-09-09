@@ -22,3 +22,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - Delegated CI/CD matrix execution to universal reusable workflow hosted at `HalloftheGods/.github/.github/workflows/chemical-x-benchmark-matrix.yml@main`.
+- Expanded legacy component baseline (`UserDashboardMonolithApp.tsx`) to 2,700 lines on `base/monolith` to benchmark high-context agent degradation.

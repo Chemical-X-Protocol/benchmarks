@@ -50,20 +50,20 @@ jobs:
     name: AST Context Hazard Audit
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js with dependency caching
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Run Static AST Context Hazard Audit
-        run: npm run audit -- --json > audit-report.json || true
+      - name: Run AST context audit
+        run: npx ts-node scripts/audit-context-risk.ts --json > audit-report.json || true
 
       - name: Output Audit Results to Step Summary
         run: |
@@ -83,21 +83,21 @@ jobs:
         model: [claude-3-7-sonnet, gemini-2-5-pro, gpt-4o, grok-2]
         architecture: [monolith, chemical-x]
     steps:
-      - name: Checkout Code with Full History
+      - name: Check out repository code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Set up Node.js with dependency caching
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Run Benchmark Task Matrix
+      - name: Run benchmark matrix runner
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -118,11 +118,40 @@ jobs:
             exit 0
           fi
 
-          npm run benchmark -- --model=${{ matrix.model }} --target=${{ matrix.architecture }} --task=$TASK_CHOICE
+          npx ts-node scripts/run-benchmark.ts --model=${{ matrix.model }} --target=${{ matrix.architecture }} --task=$TASK_CHOICE
 
-      - name: Upload Benchmark Results
+      - name: Upload Matrix Job Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: benchmark-results-${{ matrix.model }}-${{ matrix.architecture }}
           path: benchmarks/results/*.json
+
+  aggregate-and-publish:
+    name: Aggregate Benchmark Results
+    needs: [benchmark-matrix]
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js with dependency caching
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all benchmark artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: downloaded-artifacts
+
+      - name: Aggregate results across matrix jobs and publish to step summary
+        run: |
+          mkdir -p benchmarks/results
+          find downloaded-artifacts -type f -name "*.json" -exec cp {} benchmarks/results/ \;
+          npx ts-node scripts/aggregate-benchmark-summary.ts benchmarks/results

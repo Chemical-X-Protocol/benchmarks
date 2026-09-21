@@ -1,5 +1,6 @@
 import React from 'react';
-import type { DashboardRecord, DashboardSortState } from '../../../types/dashboard';
+import type { DashboardRecord, DashboardSortState, SortDirection } from '../../../types/dashboard';
+import './m-dashboard-table.css';
 
 export interface MDashboardTableProps {
   readonly items: DashboardRecord[];
@@ -8,14 +9,15 @@ export interface MDashboardTableProps {
   readonly onToggleAmountSort: () => void;
 }
 
-const getStatusBadgeDescriptor = (status: string, amount: number) => {
+const DIRECTION_INDICATORS: Record<SortDirection, string> = { asc: '▲', desc: '▼', none: '' };
+
+const getStatusBadge = (status: string, amount: number) => {
   const isActive = status === 'active';
   const isHighValue = amount > 200;
-
-  if (isActive && isHighValue) return { color: '#4ade80', text: status };
-  if (isActive) return { color: '#86efac', text: status };
-  if (status === 'pending') return { color: '#facc15', text: status };
-  return { color: '#f87171', text: status };
+  if (isActive && isHighValue) return { cls: 'm-dashboard-table__status--active-high', text: status };
+  if (isActive) return { cls: 'm-dashboard-table__status--active', text: status };
+  if (status === 'pending') return { cls: 'm-dashboard-table__status--pending', text: status };
+  return { cls: 'm-dashboard-table__status--archived', text: status };
 };
 
 export const MDashboardTable: React.FC<MDashboardTableProps> = ({
@@ -26,63 +28,65 @@ export const MDashboardTable: React.FC<MDashboardTableProps> = ({
 }) => {
   const hasItems = items.length > 0;
   const isSortedByAmount = sortState.column === 'amount' && sortState.direction !== 'none';
-  const directionIndicator = sortState.direction === 'asc' ? '▲' : sortState.direction === 'desc' ? '▼' : '';
+  const directionIndicator = DIRECTION_INDICATORS[sortState.direction];
+
+  const renderRow = (item: DashboardRecord) => {
+    const badge = getStatusBadge(item.status, item.amount);
+    return (
+      <tr key={item.id} className="m-dashboard-table__row">
+        <td className="m-dashboard-table__td">{item.id}</td>
+        <td className="m-dashboard-table__td m-dashboard-table__td--bold">{item.name}</td>
+        <td className="m-dashboard-table__td">{item.category}</td>
+        <td data-testid="record-row-amount" className="m-dashboard-table__td m-dashboard-table__td--amount">
+          {item.amount}
+        </td>
+        <td className={`m-dashboard-table__td ${badge.cls}`}>{badge.text}</td>
+        <td className="m-dashboard-table__td m-dashboard-table__td--muted">{item.createdAt}</td>
+      </tr>
+    );
+  };
+
+  const renderBody = () => {
+    if (isLoading) {
+      return (
+        <tr>
+          <td colSpan={6} className="m-dashboard-table__td-status-msg">Loading records...</td>
+        </tr>
+      );
+    }
+    if (!hasItems) {
+      return (
+        <tr>
+          <td colSpan={6} className="m-dashboard-table__td-status-msg">No matching records found.</td>
+        </tr>
+      );
+    }
+    return items.map(renderRow);
+  };
 
   return (
-    <div style={{ background: '#131e3a', borderRadius: '8px', overflow: 'hidden', border: '1px solid #1e293b' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+    <div className="m-dashboard-table">
+      <table className="m-dashboard-table__table">
         <thead>
-          <tr style={{ background: '#0f172a', borderBottom: '1px solid #334155' }}>
-            <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '13px' }}>ID</th>
-            <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '13px' }}>Name</th>
-            <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '13px' }}>Category</th>
+          <tr className="m-dashboard-table__header-row">
+            <th className="m-dashboard-table__th">ID</th>
+            <th className="m-dashboard-table__th">Name</th>
+            <th className="m-dashboard-table__th">Category</th>
             <th
               data-testid="sort-header-amount"
               onClick={onToggleAmountSort}
-              style={{ padding: '12px 16px', color: '#62c9ff', fontSize: '13px', cursor: 'pointer', userSelect: 'none' }}
+              className="m-dashboard-table__th m-dashboard-table__th--sortable"
             >
               Amount {isSortedByAmount && directionIndicator}
-              <span data-testid="sort-indicator-amount" style={{ marginLeft: '4px', fontSize: '11px' }}>
+              <span data-testid="sort-indicator-amount" className="m-dashboard-table__sort-indicator">
                 ({sortState.direction.toUpperCase()})
               </span>
             </th>
-            <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '13px' }}>Status</th>
-            <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '13px' }}>Created At</th>
+            <th className="m-dashboard-table__th">Status</th>
+            <th className="m-dashboard-table__th">Created At</th>
           </tr>
         </thead>
-        <tbody>
-          {isLoading ? (
-            <tr>
-              <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
-                Loading records...
-              </td>
-            </tr>
-          ) : !hasItems ? (
-            <tr>
-              <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
-                No matching records found.
-              </td>
-            </tr>
-          ) : (
-            items.map((item) => {
-              const badge = getStatusBadgeDescriptor(item.status, item.amount);
-              return (
-                <tr key={item.id} style={{ borderBottom: '1px solid #1e293b' }}>
-                  <td style={{ padding: '12px 16px', fontSize: '13px' }}>{item.id}</td>
-                  <td style={{ padding: '12px 16px', fontSize: '13px', fontWeight: 600 }}>{item.name}</td>
-                  <td style={{ padding: '12px 16px', fontSize: '13px' }}>{item.category}</td>
-                  <td data-testid="record-row-amount" style={{ padding: '12px 16px', fontSize: '13px', fontFamily: 'monospace' }}>
-                    {item.amount}
-                  </td>
-                  <td style={{ padding: '12px 16px', fontSize: '13px', color: badge.color }}>
-                    {badge.text}
-                  </td>
-                  <td style={{ padding: '12px 16px', fontSize: '13px', color: '#94a3b8' }}>{item.createdAt}</td>
-                </tr>
-              );
-            })
-          )}
-        </tbody>
+        <tbody>{renderBody()}</tbody>
       </table>
     </div>
   );

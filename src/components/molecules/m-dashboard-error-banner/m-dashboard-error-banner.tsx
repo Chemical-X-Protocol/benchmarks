@@ -1,4 +1,5 @@
 import React from 'react';
+import './m-dashboard-error-banner.css';
 
 export interface MDashboardErrorBannerProps {
   readonly authError: string | null;
@@ -21,7 +22,7 @@ export const MDashboardErrorBanner: React.FC<MDashboardErrorBannerProps> = ({
       {hasAuthError && (
         <div
           data-testid="auth-error-banner"
-          style={{ padding: '12px 16px', background: 'rgba(239, 68, 68, 0.2)', border: '1px solid #ef4444', borderRadius: '6px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          className="m-dashboard-error-banner__alert"
         >
           <div>
             <strong>Authentication Alert: </strong>
@@ -30,7 +31,7 @@ export const MDashboardErrorBanner: React.FC<MDashboardErrorBannerProps> = ({
           <button
             data-testid="retry-auth-button"
             onClick={onRetryAuth}
-            style={{ padding: '6px 12px', background: '#ef4444', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            className="m-dashboard-error-banner__retry-btn"
           >
             Retry Login
           </button>
@@ -40,7 +41,7 @@ export const MDashboardErrorBanner: React.FC<MDashboardErrorBannerProps> = ({
       {isRetrying && (
         <div
           data-testid="rate-limit-retry-indicator"
-          style={{ padding: '8px 16px', background: 'rgba(234, 179, 8, 0.2)', border: '1px solid #eab308', borderRadius: '6px', marginBottom: '16px', color: '#fef08a' }}
+          className="m-dashboard-error-banner__retry-indicator"
         >
           Rate limit encountered (429). Exponential backoff in progress...
         </div>

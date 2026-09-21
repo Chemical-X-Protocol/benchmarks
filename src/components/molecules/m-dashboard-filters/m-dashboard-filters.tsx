@@ -1,5 +1,6 @@
 import React from 'react';
 import type { RecordCategory, DashboardFilterState } from '../../../types/dashboard';
+import './m-dashboard-filters.css';
 
 export interface MDashboardFiltersProps {
   readonly filters: DashboardFilterState;
@@ -16,15 +17,27 @@ export const MDashboardFilters: React.FC<MDashboardFiltersProps> = ({
   onSearchChange,
   onPageSizeChange
 }) => {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onCategoryChange(event.target.value as RecordCategory);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange(event.target.value);
+  };
+
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onPageSizeChange(Number(event.target.value));
+  };
+
   return (
-    <section style={{ display: 'flex', gap: '16px', marginBottom: '20px', background: '#131e3a', padding: '16px', borderRadius: '8px' }}>
-      <div style={{ flex: 1 }}>
-        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>Category</label>
+    <section className="m-dashboard-filters">
+      <div className="m-dashboard-filters__group-category">
+        <label className="m-dashboard-filters__label">Category</label>
         <select
           data-testid="category-filter"
           value={filters.category}
-          onChange={(e) => onCategoryChange(e.target.value as RecordCategory)}
-          style={{ width: '100%', padding: '8px', background: '#0b1329', color: '#fff', border: '1px solid #334155', borderRadius: '4px' }}
+          onChange={handleCategoryChange}
+          className="m-dashboard-filters__select"
         >
           <option value="all">All Categories</option>
           <option value="billing">Billing Operations</option>
@@ -33,24 +46,24 @@ export const MDashboardFilters: React.FC<MDashboardFiltersProps> = ({
         </select>
       </div>
 
-      <div style={{ flex: 2 }}>
-        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>Search Records</label>
+      <div className="m-dashboard-filters__group-search">
+        <label className="m-dashboard-filters__label">Search Records</label>
         <input
           data-testid="search-input"
           type="text"
           placeholder="Search by name or category..."
           value={filters.searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          style={{ width: '100%', padding: '8px', background: '#0b1329', color: '#fff', border: '1px solid #334155', borderRadius: '4px' }}
+          onChange={handleSearchChange}
+          className="m-dashboard-filters__input"
         />
       </div>
 
-      <div style={{ width: '140px' }}>
-        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '4px' }}>Page Size</label>
+      <div className="m-dashboard-filters__group-page-size">
+        <label className="m-dashboard-filters__label">Page Size</label>
         <select
           value={pageSize}
-          onChange={(e) => onPageSizeChange(Number(e.target.value))}
-          style={{ width: '100%', padding: '8px', background: '#0b1329', color: '#fff', border: '1px solid #334155', borderRadius: '4px' }}
+          onChange={handlePageSizeChange}
+          className="m-dashboard-filters__select"
         >
           <option value={5}>5 per page</option>
           <option value={10}>10 per page</option>

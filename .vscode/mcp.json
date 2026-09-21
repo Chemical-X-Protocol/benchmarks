@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chemical-x": {
+      "command": "node",
+      "args": [
+        "./node_modules/create-chemx/cli/index.js",
+        "mcp"
+      ]
+    }
+  }
+}

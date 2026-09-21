@@ -11,8 +11,16 @@ const getInitialCategory = (): RecordCategory => {
   if (typeof window === 'undefined') return 'all';
   const params = new URLSearchParams(window.location.search);
   const paramCat = params.get('category');
-  if (paramCat === 'billing' || paramCat === 'security' || paramCat === 'operations') {
-    return paramCat;
+
+  // Stage 1: Concept booleans
+  const isBilling = paramCat === 'billing';
+  const isSecurity = paramCat === 'security';
+  const isOperations = paramCat === 'operations';
+
+  // Stage 2: Decision boolean & early guard
+  const isValidCategory = isBilling || isSecurity || isOperations;
+  if (isValidCategory) {
+    return paramCat as RecordCategory;
   }
   return 'all';
 };
@@ -28,10 +36,11 @@ export const useDashboardFilters = (): UseDashboardFiltersReturn => {
 
     if (nextCategory === 'all' && currentParam) {
       url.searchParams.delete('category');
-      window.history.pushState({}, '', url.toString());
+      const targetSearch = url.search ? url.search : '';
+      window.history.pushState({}, '', `${url.pathname}${targetSearch}`);
     } else if (nextCategory !== 'all' && currentParam !== nextCategory) {
       url.searchParams.set('category', nextCategory);
-      window.history.pushState({}, '', url.toString());
+      window.history.pushState({}, '', `${url.pathname}${url.search}`);
     }
   }, []);
 

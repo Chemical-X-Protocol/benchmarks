@@ -1,0 +1,77 @@
+.m-dashboard-table {
+  background: #131e3a;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+}
+
+.m-dashboard-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.m-dashboard-table__header-row {
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+
+.m-dashboard-table__th {
+  padding: 12px 16px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.m-dashboard-table__th--sortable {
+  color: #62c9ff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.m-dashboard-table__sort-indicator {
+  margin-left: 4px;
+  font-size: 11px;
+}
+
+.m-dashboard-table__td-status-msg {
+  padding: 40px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.m-dashboard-table__row {
+  border-bottom: 1px solid #1e293b;
+}
+
+.m-dashboard-table__td {
+  padding: 12px 16px;
+  font-size: 13px;
+}
+
+.m-dashboard-table__td--bold {
+  font-weight: 600;
+}
+
+.m-dashboard-table__td--amount {
+  font-family: monospace;
+}
+
+.m-dashboard-table__td--muted {
+  color: #94a3b8;
+}
+
+.m-dashboard-table__status--active-high {
+  color: #4ade80;
+}
+
+.m-dashboard-table__status--active {
+  color: #86efac;
+}
+
+.m-dashboard-table__status--pending {
+  color: #facc15;
+}
+
+.m-dashboard-table__status--archived {
+  color: #f87171;
+}

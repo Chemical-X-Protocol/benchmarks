@@ -1,0 +1,28 @@
+.m-dashboard-error-banner__alert {
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.m-dashboard-error-banner__retry-btn {
+  padding: 6px 12px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.m-dashboard-error-banner__retry-indicator {
+  padding: 8px 16px;
+  background: rgba(234, 179, 8, 0.2);
+  border: 1px solid #eab308;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  color: #fef08a;
+}

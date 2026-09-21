@@ -1,16 +1,17 @@
 import React from 'react';
 import { useUserDashboardController } from './useUserDashboardController';
 import { MDashboardHeader, MDashboardErrorBanner, MDashboardFilters, MDashboardTable, MDashboardExportModal } from '../components/molecules';
+import './UserDashboardView.css';
 
 export const UserDashboardView: React.FC = () => {
-  const c = useUserDashboardController();
+  const { state, status, actions } = useUserDashboardController();
   return (
-    <div style={{ padding: '24px', background: '#0b1329', color: '#e2e8f0', minHeight: '100vh' }}>
-      <MDashboardHeader title="Executive Dashboard" onRefresh={c.reload} onOpenExportModal={c.openExportModal} />
-      <MDashboardErrorBanner authError={c.authError} isRetrying={c.isRetrying} onRetryAuth={c.reload} />
-      <MDashboardFilters filters={c.filters} pageSize={c.pageSize} onCategoryChange={c.setCategory} onSearchChange={c.setSearchQuery} onPageSizeChange={c.setPageSize} />
-      <MDashboardTable items={c.visibleItems} isLoading={c.isLoading} sortState={c.sortState} onToggleAmountSort={c.toggleAmountSort} />
-      <MDashboardExportModal isOpen={c.isExportModalOpen} recordCount={c.visibleItems.length} onClose={c.closeExportModal} onConfirmExport={c.exportJson} />
+    <div className="user-dashboard-view">
+      <MDashboardHeader title="Executive Dashboard" onRefresh={actions.reload} onOpenExportModal={actions.openExportModal} />
+      <MDashboardErrorBanner authError={status.authError} isRetrying={status.isRetrying} onRetryAuth={actions.reload} />
+      <MDashboardFilters filters={state.filters} pageSize={state.pageSize} onCategoryChange={actions.setCategory} onSearchChange={actions.setSearchQuery} onPageSizeChange={actions.setPageSize} />
+      <MDashboardTable items={state.visibleItems} isLoading={status.isLoading} sortState={state.sortState} onToggleAmountSort={actions.toggleAmountSort} />
+      <MDashboardExportModal isOpen={state.isExportModalOpen} recordCount={state.visibleItems.length} onClose={actions.closeExportModal} onConfirmExport={actions.exportJson} />
     </div>
   );
 };

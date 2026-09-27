@@ -1,0 +1,37 @@
+.m-dashboard-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: #131e3a;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.m-dashboard-filters__group-category {
+  flex: 1;
+}
+
+.m-dashboard-filters__group-search {
+  flex: 2;
+}
+
+.m-dashboard-filters__group-page-size {
+  width: 140px;
+}
+
+.m-dashboard-filters__label {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.m-dashboard-filters__input,
+.m-dashboard-filters__select {
+  width: 100%;
+  padding: 8px;
+  background: #0b1329;
+  color: #fff;
+  border: 1px solid #334155;
+  border-radius: 4px;
+}

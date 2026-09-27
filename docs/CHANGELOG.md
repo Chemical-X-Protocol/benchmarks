@@ -4,6 +4,11 @@ All notable changes to the Chemical X Benchmarks repository will be documented i
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2026-09-26]
+
+### Fixed
+- Updated workspace dependency from `create-chemx` to `@chemx/starter-kit` to match starter kit package naming and resolve workspace dependency resolution.
+
 ## [2026-09-09]
 
 ### Added
